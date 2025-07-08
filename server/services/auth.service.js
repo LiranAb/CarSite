@@ -26,6 +26,7 @@ export const authService = {
                 ...userData,
                 password: await hashPassword(userData.password),
             };
+            console.log('Final password hash before save:', registerUserData.password);
 
             // Register the user in the database
             const user = await authDal.registerUser(registerUserData);
@@ -67,6 +68,7 @@ export const authService = {
 
             // Get user by email
             const user = await userDal.getUserByEmail(email, true);
+            console.log('Hashed password from DB:', user.password);
 
             console.log('Service: User fetched from database', user);
 
@@ -96,14 +98,15 @@ export const authService = {
 
             // Convert user to plain object and remove password
 
-            delete user.password; 
+            const plainUser = user.toObject();
+            delete plainUser.password;
 
             console.log('User found', user);
             // Return successful login response
             return {
                 success: true,
                 token: token,
-                user: user, 
+                user: plainUser
                 
             };
         } catch (e) {

@@ -42,7 +42,6 @@ app.get('/', (req, res) => {
   })
 })
 
-
  app.use('/api', routes)
 
 // Middleware לטיפול ב-404

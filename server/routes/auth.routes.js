@@ -1,16 +1,11 @@
-import { Router } from 'express';
-import { registerUser, logUser } from '../controllers/auth.controller.js';
-import authMiddleware from '../middleware/auth.js';
+// server/routes/auth.routes.js
 
-const router = Router();
+import express from 'express';
+import { logUser, registerUser } from '../controllers/auth.controller.js';
 
-// רישום משתמש חדש
-router.post('/register', registerUser);
+const router = express.Router();
 
-// התחברות
 router.post('/login', logUser);
-
-// קבלת פרטי המשתמש המחובר
-// router.get('/me', authMiddleware, getMe);
+router.post('/register', registerUser);
 
 export default router;
