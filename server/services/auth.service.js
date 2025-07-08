@@ -98,15 +98,15 @@ export const authService = {
 
             // Convert user to plain object and remove password
 
-            const plainUser = user.toObject();
-            delete plainUser.password;
+
+            delete user.password;
 
             console.log('User found', user);
             // Return successful login response
             return {
                 success: true,
                 token: token,
-                user: plainUser
+                user: user
                 
             };
         } catch (e) {

@@ -1,14 +1,13 @@
-import express from 'express'
-import auth from "../middleware/auth.js";
+import { Router } from 'express'
+import authRouter from './auth.routes.js'
+import {registerUser,logUser} from "../controllers/auth.controller.js";
 
-const router = express.Router()
+
+const router = Router()
+
+router.use('/auth', authRouter)
 
 
-// דוגמה:
-
-import authRoutes from './auth.routes.js'
-
-router.use('/auth', authRoutes)
 
 
 // בדיקת בריאות השרת
@@ -19,6 +18,8 @@ router.get('/health', (req, res) => {
     message: 'השרת פועל תקין'
   })
 })
+
+
 
 
 export default router

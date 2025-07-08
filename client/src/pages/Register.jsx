@@ -35,7 +35,7 @@ const Register = () => {
     
     if (result.success) {
         console.log('Registration success - navigating to dashboard')
-      navigate('/dashboard')
+      navigate('/login') // Change to your desired route after registration
     }
   }
 

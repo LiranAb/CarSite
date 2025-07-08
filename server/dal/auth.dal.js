@@ -16,3 +16,15 @@ export const authDal = {
     }
 
 }
+
+export const logUser = async (email, password) => {
+    try {
+        console.log('DAL: Started logging in user', email, password);
+        const user = await User.findOne({
+            email: email,
+        }).select('+password')
+    } catch (e) {
+        console.error('DAL: Error during user login', e);
+        throw e;
+    }
+}

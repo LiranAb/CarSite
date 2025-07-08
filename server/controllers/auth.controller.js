@@ -22,14 +22,17 @@ export const logUser = async (req, res) => {
     try {
         console.log("Logging in user with data:", req.body);
         const { email, password } = req.body;
-        // Debug log to check the type and value of email
-        console.log("Type of email:", typeof email, "Value:", email);
         const result = await authService.logUser(email, password);
         console.log("User login result:", result);
-        if(result.success) {
-            res.status(200).json(result);
+
+        if (result.success) {
+            return res.status(200).json(result);
+        } else {
+            return res.status(401).json({ success: false, message: 'אימייל או סיסמה לא נכונים' });
         }
     } catch (err) {
-        res.status(err.status || 500).json(err);
+        console.error("Login error:", err);
+        res.status(500).json({ success: false, message: err.message });
     }
 }
+
