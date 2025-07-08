@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import  useAuthStore from '../store/authStore'
+import {Button} from "./Button";
 
 const NavBar = () => {
   const { user, logout } = useAuthStore()
@@ -31,15 +32,17 @@ const NavBar = () => {
 
                 <div className="flex items-center space-x-2">
                   <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-                    {user.name} שלום
+                    שלום  {user.name}
                   </Link>
 
-                  <button 
+                  <Button
                     onClick={handleLogout}
-                    className="btn-secondary text-sm"
+                    text={"התנתק"}
+
+
                   >
                     התנתק
-                  </button>
+                  </Button>
                 </div>
               </>
             ) : (

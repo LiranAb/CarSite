@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import authRouter from './auth.routes.js'
-import {registerUser,logUser} from "../controllers/auth.controller.js";
+import userRoutes from './user.routes.js';
 
 
 const router = Router()
 
 router.use('/auth', authRouter)
+
+router.use('/user', userRoutes);
 
 
 

@@ -1,37 +1,29 @@
+import User from '../models/user.model.js';
+import bcrypt from 'bcrypt';
 
-import {userService} from "../services/user.service.js";
-
-
-export const getUsers = async (req, res) => {
-    try{
-        const {age,email,name,city} = req.query;
-        const  result = await  userService.getUsers({age, email, name, city});
-        // console.log('Users retrieved', result);
-        return  res.status(200).json((result));
-    }catch(err){
-        res.status(400).send({error:err.message});
-    }
-}
-
-export const userAction = async (req, res) => {
+export const updateName = async (req, res) => {
     try {
-        const  result = async  () =>{
-            switch(req.method){
-                case 'GET':
-                    return  await userService.getUserById(req.params.id, req.headers.authorization);
-                case 'PUT':
-                {
-                    if(!req.body)
-                        return res.status(400).send({error:'No data provided'});
-                    return await userService.updateUserById(req.params.id, req.body);
-                }
-                case 'DELETE':
-                    return await userService.deleteUserById(req.params.id);
-            }
-        }
-        res.status(200).json(await result());
-    }catch(err){
-        res.status(500).send({error:err.message});}
-}
+        const { name } = req.body;
+        const user = await User.findByIdAndUpdate(req.user._id, { name }, { new: true });
+        res.json({ message: 'השם עודכן בהצלחה', user });
+    } catch (err) {
+        res.status(500).json({ message: 'שגיאה בעדכון השם' });
+    }
+};
 
+export const updatePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const user = await User.findById(req.user._id);
 
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) return res.status(400).json({ message: 'הסיסמה הנוכחית שגויה' });
+
+        user.password = await bcrypt.hash(newPassword, 10);
+        await user.save();
+
+        res.json({ message: 'הסיסמה עודכנה בהצלחה' });
+    } catch (err) {
+        res.status(500).json({ message: 'שגיאה בעדכון הסיסמה' });
+    }
+};
