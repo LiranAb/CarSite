@@ -20,7 +20,7 @@ const ProfileSettings = () => {
 
   const handleNameChange = async () => {
     try {
-      const  response= await axios.put(
+      const  res= await axios.put(
           '/api/user/name',
           { name },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -49,7 +49,7 @@ const ProfileSettings = () => {
   };
 
   return (
-      <div className="max-w-xl mx-auto p-4 shadow-md bg-white rounded-xl">
+      <div className="max-w-xl mx-auto p-4  bg-white rounded-xl">
         <Button
             onClick={toggleSettings}
             className="btn-primary mb-4"

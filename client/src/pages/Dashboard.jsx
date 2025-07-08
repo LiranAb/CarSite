@@ -4,6 +4,8 @@ import ProfileSettings from "../components/ProfileSettings";
 
 
 const Dashboard = () => {
+  const { user} = useAuthStore()
+
   return (
     <div className="card">
       <div className="flex justify-between items-center mb-6">
