@@ -24,7 +24,7 @@ const login = () => {
 
         const result = await login(email, password);
         if (result.success) {
-            navigate('/Dashboard'); // או כל עמוד שתבחר אחרי התחברות
+            navigate('/');
         } else {
             setError(result.message);
         }
@@ -65,9 +65,6 @@ const login = () => {
                     className="w-full bg-blue-600 text-white rounded-xl px-4 py-3 hover:bg-blue-700 transition duration-200"
                     onClick={handleSubmit}
                     text="התחבר"
-
-
-
                     />
                 </form>
             </div>

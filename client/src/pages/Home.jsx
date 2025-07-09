@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import useAuthStore from "../store/authStore";
+import {Button} from "../components/Button";
+
 
 const Home = () => {
+    const {user}=useAuthStore();
     return (
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
             {/* Hero Section */}
@@ -11,11 +15,14 @@ const Home = () => {
                 <p className="text-lg md:text-xl text-gray-600 max-w-xl mx-auto ">
                     פלטפורמה לניהול, שמירת והשוואת רכבים בצורה פשוטה, חכמה ונוחה
                 </p>
+                {!user && (
                 <Link to="/login">
-                    <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
-                        התחבר עכשיו
-                    </button>
-                </Link>
+                    <Button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
+                    text="התחבר עכשיו" />
+
+
+
+                </Link>)}
             </div>
 
             {/* Features */}
