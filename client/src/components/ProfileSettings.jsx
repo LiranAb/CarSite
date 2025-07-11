@@ -4,66 +4,78 @@ import axios from 'axios';
 import { Button } from './Button';
 
 const ProfileSettings = () => {
-  const { user, token } = useAuthStore();
+  const { user, token, updateCarName, updateName } = useAuthStore();
   const [showSettings, setShowSettings] = useState(false);
   const [name, setName] = useState(user?.name || '');
+  const [carName, setCarName] = useState(user?.carName || '');
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  const toggleSettings = () => {
-    setShowSettings(!showSettings);
+  const clearMessages = () => {
     setMessage('');
     setError('');
   };
 
-  const handleNameChange = async () => {
-    try {
-      const  res= await axios.put(
-          '/api/user/name',
-          { name },
-          { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setMessage('השם עודכן בהצלחה');
-      setError('');
-    } catch (err) {
-      setError(err.response?.data?.message || 'שגיאה בעדכון השם');
-    }
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+    clearMessages();
   };
 
-  const handlePasswordChange = async () => {
+  const handleSaveAll = async () => {
+    clearMessages();
+
     try {
-      const res = await axios.put(
-          '/api/user/password',
-          { oldPassword, newPassword },
-          { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setMessage('הסיסמה עודכנה בהצלחה');
-      setError('');
-      setOldPassword('');
-      setNewPassword('');
+      let anyUpdate = false;
+
+      if (name !== user.name) {
+        const res = await updateName(name);
+        if (!res.success) throw new Error(res.message);
+        anyUpdate = true;
+      }
+
+      if (carName !== user.carName) {
+        const res = await updateCarName(carName);
+        if (!res.success) throw new Error(res.message);
+        anyUpdate = true;
+      }
+
+      if (oldPassword && newPassword) {
+        await axios.put(
+            '/api/user/password',
+            { oldPassword, newPassword },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setOldPassword('');
+        setNewPassword('');
+        anyUpdate = true;
+      }
+
+      if (anyUpdate) {
+        setMessage('ההגדרות עודכנו בהצלחה');
+      } else {
+        setMessage('לא בוצעו שינויים');
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'שגיאה בעדכון הסיסמה');
+      setError(err.message || 'שגיאה בעדכון ההגדרות');
     }
   };
 
   return (
-      <div className="max-w-xl mx-auto p-4  bg-white rounded-xl">
+      <div className="max-w-xl mx-auto p-4 bg-white rounded-xl">
         <Button
             onClick={toggleSettings}
             className="btn-primary mb-4"
             text={showSettings ? 'סגור הגדרות' : '⚙️ ערוך פרופיל'}
-        >
-          {showSettings ? 'סגור הגדרות' : '⚙️ ערוך פרופיל'}
-        </Button>
+        />
 
         {showSettings && (
             <>
               {message && <div className="text-green-600 mb-2">{message}</div>}
               {error && <div className="text-red-600 mb-2">{error}</div>}
 
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block mb-1 font-medium">שם מלא:</label>
                 <input
                     type="text"
@@ -71,13 +83,19 @@ const ProfileSettings = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                <Button onClick={handleNameChange} className="btn-primary mt-2"
-                text={"עדכן שם"}
-
-                >עדכן שם</Button>
               </div>
 
-              <div className="mb-6">
+              <div className="mb-4">
+                <label className="block mb-1 font-medium">שם רכב:</label>
+                <input
+                    type="text"
+                    className="input-field"
+                    value={carName}
+                    onChange={(e) => setCarName(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-4">
                 <label className="block mb-1 font-medium">סיסמה נוכחית:</label>
                 <input
                     type="password"
@@ -92,10 +110,9 @@ const ProfileSettings = () => {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                 />
-                <Button onClick={handlePasswordChange} className="btn-primary mt-2"
-                text={"עדכן סיסמה"}
-                >עדכן סיסמה</Button>
               </div>
+
+              <Button onClick={handleSaveAll} className="btn-primary mt-2 w-full" text="💾 שמור שינויים" />
             </>
         )}
       </div>

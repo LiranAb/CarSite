@@ -4,11 +4,11 @@ import  useAuthStore from '../store/authStore'
 import {Button} from "./Button";
 
 const NavBar = () => {
-  const { user, logout } = useAuthStore()
+  const { user, logOut } = useAuthStore()
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    logout()
+    logOut();
     navigate('/login')
   }
 
@@ -38,11 +38,8 @@ const NavBar = () => {
                   <Button
                     onClick={handleLogout}
                     text={"התנתק"}
+                  />
 
-
-                  >
-                    התנתק
-                  </Button>
                 </div>
               </>
             ) : (

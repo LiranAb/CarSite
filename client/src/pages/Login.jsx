@@ -14,7 +14,7 @@ const login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ולידציה בסיסית
+
         if (!email || !password) {
             return setError('אנא מלא את כל השדות');
         }

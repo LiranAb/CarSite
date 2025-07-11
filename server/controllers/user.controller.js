@@ -27,3 +27,15 @@ export const updatePassword = async (req, res) => {
         res.status(500).json({ message: 'שגיאה בעדכון הסיסמה' });
     }
 };
+export const updateCarName = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const { carName } = req.body;
+
+        const user = await User.findByIdAndUpdate(userId, { carName }, { new: true });
+
+        res.json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'שגיאה בעדכון שם הרכב' });
+    }
+};

@@ -4,7 +4,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
-import AdminPanel from '../pages/AdminPanel';
+
 import { ProtectedRoute, PublicRoute } from '../components/RouteGuards';
 
 const router = createBrowserRouter([
@@ -38,14 +38,7 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 ),
             },
-            {
-                path: 'admin',
-                element: (
-                    <ProtectedRoute adminOnly>
-                        <AdminPanel />
-                    </ProtectedRoute>
-                ),
-            },
+
         ],
     },
 ]);
