@@ -61,7 +61,22 @@ const useAuthStore = create((set, get) => ({
             set({ error: message });
             return { success: false, message };
         }
+    },
+    getAllUsersWithCars: async () => {
+        const token = get().token;
+        try {
+            const res = await axios.get('/api/user/all-users', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return { success: true, users: res.data };
+        } catch (err) {
+            const message = err.response?.data?.message || 'שגיאה בשליפת המשתמשים';
+            return { success: false, message };
+        }
     }
+
 }));
 
 export default useAuthStore;

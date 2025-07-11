@@ -39,3 +39,18 @@ export const updateCarName = async (req, res) => {
         res.status(500).json({ success: false, message: 'שגיאה בעדכון שם הרכב' });
     }
 };
+import { userDal } from '../dal/user.dal.js';
+
+export const getAllUsersWithCar = async (req, res) => {
+    try {
+        const users = await userDal.getUsers({});
+        const userList = users.map(user => ({
+            name: user.name,
+            carName: user.carName
+        }));
+        res.json(userList);
+    } catch (err) {
+        res.status(500).json({ message: 'שגיאה בקבלת המשתמשים' });
+    }
+};
+

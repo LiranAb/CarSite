@@ -26,7 +26,12 @@ const NavBar = () => {
             <Link to="/" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
               בית
             </Link>
-            
+
+            <Link to="/cars" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+              משתמשים
+            </Link>
+
+
             {user ? (
               <>
 
