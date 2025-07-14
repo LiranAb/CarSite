@@ -6,6 +6,7 @@ import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import Cars from '../pages/UsersCarNames';
 import { ProtectedRoute, PublicRoute } from '../components/RouteGuards';
+import CarSearchPage from "../pages/CarSearchPage";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <Cars />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: 'car-search',
+                element: (
+                    <ProtectedRoute>
+                        <CarSearchPage />
                     </ProtectedRoute>
                 ),
             },

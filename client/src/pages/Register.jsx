@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useAuthStore from '../store/authStore';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '../components/Button';
+import RegisterForm from '../components/RegisterForm';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ const Register = () => {
     carName: '',
   });
 
-  const { register:registerUser, loading, error } = useAuthStore();
+  const { registerUser, loading, error } = useAuthStore();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -34,7 +35,7 @@ const Register = () => {
       name: formData.name,
       email: formData.email,
       password: formData.password,
-      carName: formData.carName, // ✅ זה החלק שהיה חסר
+      carName: formData.carName,
     });
 
     if (result.success) {
@@ -51,70 +52,11 @@ const Register = () => {
           {error && <div className="error-message">{error}</div>}
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">שם מלא</label>
-              <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="הכנס את השם המלא שלך"
-                  required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">אימייל</label>
-              <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="הכנס את האימייל שלך"
-                  required
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">סיסמה</label>
-              <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="הכנס סיסמה"
-                  required
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2">אימות סיסמה</label>
-              <input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="הכנס את הסיסמה שוב"
-                  required
-              />
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2">שם הרכב שלך</label>
-              <input
-                  type="text"
-                  name="carName"
-                  value={formData.carName}
-                  onChange={handleChange}
-                  className="input-field"
-                  placeholder="שם הרכב שלך"
-                  required
-              />
-            </div>
+              <RegisterForm
+                  formData={formData}
+                  handleChange={handleChange}
+                  loading={loading}
+                />
 
             <Button
                 type="submit"

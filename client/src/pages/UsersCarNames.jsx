@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import useAuthStore from '../store/authStore';
-import UserCard from '../components/Cards/UserCard';
+import UserCard from '../Cards/UserCard';
 
 const CarsPage = () => {
     const { getAllUsersWithCars,token } = useAuthStore();

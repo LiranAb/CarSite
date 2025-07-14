@@ -31,6 +31,9 @@ const NavBar = () => {
               משתמשים
             </Link>
 
+            <Link to="/car-search" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+              חיפוש רכבים
+            </Link>
 
             {user ? (
               <>
