@@ -1,25 +1,20 @@
-import { useEffect } from 'react';
-import { useCarZoneStore } from '../store/useCarZoneStore.js';
+// hooks/UseFetchCarZoneData.js
+export default async function fetchCarZoneData(make, setCarModels, setLoading, setError) {
+    try {
+        setLoading(true);
+        setError(null);
 
-const useFetchCarZoneData = (make = 'honda') => {
-    const { setCarModels, setIsLoading, setError } = useCarZoneStore();
+        const res = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/${make}?format=json`);
+        const data = await res.json();
 
-    useEffect(() => {
-        const fetchModels = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${make}?format=json`);
-                const data = await response.json();
-                setCarModels(data.Results || []);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchModels();
-    }, [make]);
-};
-
-export default useFetchCarZoneData;
+        if (Array.isArray(data.Results)) {
+            setCarModels(data.Results);
+        } else {
+            setError('שגיאה בקבלת הנתונים');
+        }
+    } catch (err) {
+        setError('שגיאת רשת');
+    } finally {
+        setLoading(false);
+    }
+}

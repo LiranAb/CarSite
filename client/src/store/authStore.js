@@ -13,8 +13,16 @@ const useAuthStore = create((set, get) => ({
             set({ user: res.data.user, token: res.data.token, error: null });
             return { success: true };
         } catch (err) {
-            set({ error: err.response?.data?.message || 'שגיאה בהתחברות' });
-            return { success: false, message: err.response?.data?.message || 'שגיאה בהתחברות' };
+            // בדוק אם השגיאה היא "User not found" והצג הודעה מותאמת
+            const serverMsg = err.response?.data?.message;
+            let message = 'שגיאה בהתחברות';
+            if (serverMsg && serverMsg.toLowerCase().includes('not found')) {
+                message = 'משתמש לא קיים';
+            } else if (serverMsg) {
+                message = serverMsg;
+            }
+            set({ error: message });
+            return { success: false, message };
         }
     },
 

@@ -1,4 +1,3 @@
-
 // Import DAL (Data Access Layer) modules
 import { authDal } from "../dal/auth.dal.js";
 import { userDal } from "../dal/user.dal.js";
@@ -68,23 +67,31 @@ export const authService = {
 
             // Get user by email
             const user = await userDal.getUserByEmail(email, true);
-            console.log('Hashed password from DB:', user.password);
-
-            console.log('Service: User fetched from database', user);
 
             // Validate user exists and password is provided
             if (!user || !password) {
-                const error = new Error('Invalid email or password');
+                const error = new Error('סליחה, משתמש לא קיים או סיסמה לא נכונה');
                 error.status = 401; // Unauthorized
                 throw error;
             }
 
+            console.log('Hashed password from DB:', user.password);
+            console.log('Service: User fetched from database', user);
+
             // Verify password matches
-            const isPasswordValid = await verifyPassword(password, user.password);
-          
+            let isPasswordValid = false;
+            try {
+                isPasswordValid = await verifyPassword(password, user.password);
+            } catch (err) {
+                // אם יש בעיה בהשוואת סיסמה (למשל user.password לא קיים), החזר שגיאת התחברות
+                const error = new Error('סליחה, משתמש לא קיים או סיסמה לא נכונה');
+                error.status = 401;
+                throw error;
+            }
+
             if (!isPasswordValid) {
                 console.log('Service: Invalid password for user', email);
-                const error = new Error('Invalid email or password');
+                const error = new Error('סליחה, משתמש לא קיים או סיסמה לא נכונה');
                 error.status = 401; // Unauthorized
                 throw error;
             }
@@ -97,22 +104,33 @@ export const authService = {
             console.log('Service: Token generated successfully', token);
 
             // Convert user to plain object and remove password
+            let userObj;
+            if (typeof user.toObject === 'function') {
+                userObj = user.toObject();
+            } else {
+                userObj = { ...user };
+            }
+            if (userObj.password !== undefined) {
+                delete userObj.password;
+            }
 
-
-            delete user.password;
-
-            console.log('User found', user);
+            console.log('User found', userObj);
             // Return successful login response
             return {
                 success: true,
                 token: token,
-                user: user
-                
+                user: userObj
             };
         } catch (e) {
-            throw e;
+            // ודא שתמיד מוחזר סטטוס נכון לשגיאות התחברות
+            if (e.status === 401) {
+                throw e;
+            }
+            // שגיאות אחרות - החזר שגיאת שרת כללית
+            console.error('Auth Service Error:', e);
+            const error = new Error('שגיאת שרת פנימית');
+            error.status = 500;
+            throw error;
         }
     }
 };
-
-

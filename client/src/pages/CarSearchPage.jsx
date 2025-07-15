@@ -1,43 +1,57 @@
-import React, { useState } from 'react';
-import useFetchCarZoneData from '../hooks/useFetchCarZoneData';
+import { useState, useEffect } from 'react';
+import CarSearchForm from '../components/CarSearch/CarSearchForm';
+import CarModelGrid from '../components/CarSearch/CarModelGrid';
+import fetchCarZoneData from '../hooks/UseFetchCarZoneData';
 import { useCarZoneStore } from '../store/useCarZoneStore';
-import CarModelCard from '../Cards/CarModelCard';
 
 const CarSearchPage = () => {
+    const [makeInput, setMakeInput] = useState('');
+    const [subModel, setSubModel] = useState('');
     const [make, setMake] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
-    const { carModels, isLoading, error } = useCarZoneStore();
+    const { carModels, isLoading, error, setCarModels, setIsLoading, setError } = useCarZoneStore();
+
+
+    useEffect(() => {
+        if (make) {
+            fetchCarZoneData(make, setCarModels, setIsLoading, setError);
+            setMakeInput('');
+            // איפוס רק אחרי ש־make קיבל ערך וה־fetch בוצע
+        }
+    }, [make]);
+
 
     const handleSearch = (e) => {
-        e.preventDefault();
-        setMake(searchTerm.trim());
+        if (e) e.preventDefault();
+        if (!makeInput.trim()) return;
+        setMake(makeInput.trim()); // אל תאפס כאן!
     };
-
-    useFetchCarZoneData(make);
+    const filteredModels = Array.isArray(carModels)
+        ? subModel.trim()
+            ? carModels.filter((m) =>
+                (m.Model_Name || '').toLowerCase().includes(subModel.trim().toLowerCase())
+            )
+            : carModels
+        : [];
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold text-center mb-6">🔍 חיפוש דגמי רכבים לפי יצרן</h1>
+            <h2 className="text-2xl font-bold mb-4 text-center">חיפוש רכבים</h2>
 
-            <form onSubmit={handleSearch} className="flex justify-center gap-4 mb-6">
-                <input
-                    type="text"
-                    placeholder="לדוגמה: honda, toyota..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input-field w-60"
-                />
-                <button type="submit" className="btn-primary">חפש</button>
-            </form>
+            <CarSearchForm
+                makeInput={makeInput}
+                setMakeInput={setMakeInput}
+                subModel={subModel}
+                setSubModel={setSubModel}
+                handleSearch={handleSearch}
+            />
 
-            {isLoading && <p className="text-center">טוען נתונים...</p>}
-            {error && <p className="text-center text-red-500">{error}</p>}
+            {isLoading && <p className="text-center text-gray-600 mt-4">בטעינה...</p>}
+            {error && <p className="text-center text-red-500 mt-4">{error}</p>}
+            {!isLoading && !error && filteredModels.length === 0 && (
+                <p className="text-center text-gray-500 mt-4">לא נמצאו דגמים תואמים</p>
+            )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {carModels.map((model) => (
-                    <CarModelCard key={model.Model_ID} model={model} />
-                ))}
-            </div>
+            <CarModelGrid models={filteredModels} />
         </div>
     );
 };

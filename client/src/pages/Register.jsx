@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useAuthStore from '../store/authStore';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '../components/Button';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/LoginRegisterForms/RegisterForm.jsx';
 
 const Register = () => {
   const [formData, setFormData] = useState({

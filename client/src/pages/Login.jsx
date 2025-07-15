@@ -1,75 +1,31 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../store/authStore';
-import {Button} from '../components/Button'; // נניח שיש לך קומפוננטת כפתור
+import { FaLock } from "react-icons/fa";
+import LoginForm from "../components/LoginRegisterForms/LoginForm";
+import carLogo from "../assets/car-logo.svg"; // ודא שהלוגו נמצא בתיקיית assets
 
-const login = () => {
-    const { login } = useAuthStore();
-    const navigate = useNavigate();
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-
-        if (!email || !password) {
-            return setError('אנא מלא את כל השדות');
-        }
-        if (!email.includes('@')) {
-            return setError('אימייל לא תקין');
-        }
-
-        const result = await login(email, password);
-        if (result.success) {
-            navigate('/');
-        } else {
-            setError(result.message);
-        }
-    };
-
+const Login = () => {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <div className="bg-white shadow-xl rounded-xl p-8 w-full max-w-md">
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">התחברות</h2>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-100 px-4 py-12">
+            <div className="bg-white shadow-2xl rounded-3xl p-10 w-full max-w-md transition-all duration-300">
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-right text-sm text-gray-700">אימייל</label>
-                        <input
-                            type="email"
-                            className="w-full border border-gray-300 rounded-xl px-4 py-2 text-right"
-                            placeholder="הכנס אימייל"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
+                {/* לוגו למעלה */}
+                <div className="flex justify-center mb-6">
+                    <img src={carLogo} alt="CarZone Logo" className="w-16 h-16" />
+                </div>
 
-                    <div>
-                        <label className="block text-right text-sm text-gray-700">סיסמה</label>
-                        <input
-                            type="password"
-                            className="w-full border border-gray-300 rounded-xl px-4 py-2 text-right"
-                            placeholder="הכנס סיסמה"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
+                {/* כותרת עם מנעול */}
+                <h2 className="text-3xl font-extrabold text-center text-blue-700 mb-2 tracking-tight flex items-center justify-center gap-2">
+                    <FaLock className="text-blue-500" />
+                    התחברות ל־CarZone
+                </h2>
 
-                    {error && <p className="text-red-600 text-sm text-right">{error}</p>}
+                <p className="text-center text-gray-500 mb-8">
+                    הזן את פרטיך כדי להתחבר לחשבון שלך
+                </p>
 
-                    <Button
-                    type={"submit"}
-                    className="w-full bg-blue-600 text-white rounded-xl px-4 py-3 hover:bg-blue-700 transition duration-200"
-                    onClick={handleSubmit}
-                    text="התחבר"
-                    />
-                </form>
+                <LoginForm />
             </div>
         </div>
     );
 };
 
-export default login;
+export default Login;

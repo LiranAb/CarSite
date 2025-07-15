@@ -1,4 +1,3 @@
-
 import User from "../models/user.model.js";
 
 export const userDal = {
@@ -28,9 +27,12 @@ export const userDal = {
     getUserByEmail: async (email, isFromLogin = false) => {
         try {
             console.log('DAL: Fetching user by email', email);
+            let user;
             if (isFromLogin)
-                return await User.findOne({ email: email }).select('+password').lean();
-            return await User.findOne({ email: email }).lean();
+                user = await User.findOne({ email: email }).select('+password').lean();
+            else
+                user = await User.findOne({ email: email }).lean();
+            return user || null;
         } catch (e) {
             throw e
         }
@@ -56,4 +58,3 @@ export const userDal = {
     },
 
 }
-
