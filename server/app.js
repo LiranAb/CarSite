@@ -1,18 +1,19 @@
 import express from 'express'
 import cors from 'cors'
-import dotenv from 'dotenv'
+import carQueryRoutes from './routes/car.query.routes.js'
 import config from '../server/config/index.js'
 import {connectToDatabase} from './config/database.js'
 import { errorHandler, notFound } from './middleware/errorHandler.js'
 import routes from './routes/index.js'
+import carImageRoutes from './routes/carimage.routes.js'
 
 
 const app = express()
 
-// חיבור למסד נתונים
+
 connectToDatabase()
 
-// Middleware בסיסי
+
 app.use(cors({
   origin: config.clientUrl,
   credentials: true
@@ -20,7 +21,7 @@ app.use(cors({
 app.use(express.json({ limit: config.maxFileSize }))
 app.use(express.urlencoded({ extended: true }))
 
-// נתיב בריאות השרת
+
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK', 
@@ -30,7 +31,7 @@ app.get('/health', (req, res) => {
   })
 })
 
-// נתיב בסיסי
+
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Welcome to the project server!',
@@ -42,12 +43,15 @@ app.get('/', (req, res) => {
   })
 })
 
- app.use('/api', routes)
+app.use('/api', routes)
+app.use('/api', carImageRoutes);
+app.use('/api', carQueryRoutes);
 
-// Middleware לטיפול ב-404
+
+
 app.use(notFound)
 
-// Middleware לטיפול בשגיאות כלליות
+
 app.use(errorHandler)
 
 export default app

@@ -6,7 +6,7 @@ import Register from '../pages/Register';
 import Profile from '../pages/Profile.jsx';
 import Cars from '../pages/UsersCarNames';
 import { ProtectedRoute, PublicRoute } from '../components/RouteGuards';
-import CarSearchPage from "../pages/CarSearchPage";
+import CarCatalogPage from "../pages/CarCatalogPage.jsx";
 
 const router = createBrowserRouter(
     [
@@ -51,7 +51,7 @@ const router = createBrowserRouter(
                     path: 'car-search',
                     element: (
                         <ProtectedRoute>
-                            <CarSearchPage />
+                            <CarCatalogPage />
                         </ProtectedRoute>
                     ),
                 },

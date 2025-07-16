@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 
+
 export const useCarZoneStore = create((set) => ({
     carModels: [],
     isLoading: false,
     error: null,
 
     setCarModels: (models) => set({ carModels: models }),
-    setIsLoading: (loading) => set({ isLoading: loading }),
+    setLoading: (loading) => set({ isLoading: loading }), // 👈 תיקון כאן
     setError: (err) => set({ error: err }),
 }));
