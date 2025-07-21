@@ -12,7 +12,7 @@ const HeroSection = () => {
                 ברוך הבא ל־CarZone 🚗
             </h1>
             <p className="text-lg md:text-2xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
-                פלטפורמה מתקדמת לניהול, שמירת ומנוע חיפוש לרכבים – הכל במקום אחד.
+                פלטפורמה לניהול, שמירה ומנוע חיפוש לרכבים – הכל במקום אחד.
             </p>
 
             {!user && (

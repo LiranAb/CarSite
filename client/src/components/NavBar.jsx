@@ -23,23 +23,21 @@ const NavBar = () => {
           </div>
           
           <div className="flex items-center space-x-4">
-            <Link to="/" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-              בית
-            </Link>
 
             <Link to="/cars" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
               משתמשים
             </Link>
 
             <Link to="/car-search" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
-              חיפוש רכבים
+              קטלוג רכבים
+
             </Link>
 
             {user ? (
               <>
 
                 <div className="flex items-center space-x-2">
-                  <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                  <Link to="/profile" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
                     שלום  {user.name}
                   </Link>
 

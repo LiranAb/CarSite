@@ -1,4 +1,4 @@
-// ✅ components/CarSearch/CarsImageComponnent.jsx
+
 import { useEffect, useState } from "react";
 
 const CarsImageComponnent = ({ make, model }) => {

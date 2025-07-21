@@ -1,4 +1,3 @@
-// ✅ src/components/CarSearch/FilterSidebar.jsx
 import { useEffect, useState } from 'react';
 import {
     getAllMakes,

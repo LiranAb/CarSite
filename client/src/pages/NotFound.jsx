@@ -16,7 +16,7 @@ const NotFound = () => {
           חזור לדף הבית
         </Link>
         <Link to="/dashboard" className="btn-secondary">
-          לוח בקרה
+         עמוד פרופיל
         </Link>
       </div>
     </div>

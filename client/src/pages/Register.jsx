@@ -39,7 +39,6 @@ const Register = () => {
     });
 
     if (result.success) {
-      console.log('Registration success - navigating to login');
       navigate('/login');
     }
   };

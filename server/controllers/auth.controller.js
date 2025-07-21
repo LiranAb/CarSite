@@ -31,8 +31,12 @@ export const logUser = async (req, res) => {
             return res.status(401).json({ success: false, message: 'אימייל או סיסמה לא נכונים' });
         }
     } catch (err) {
-        console.error("Login error:", err);
-        res.status(500).json({ success: false, message: err.message });
-    }
+    console.error("Login error:", err);
+    res.status(err.status || 500).json({
+        success: false,
+        message: err.message || 'שגיאה בשרת'
+    });
 }
+}
+
 
