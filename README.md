@@ -1,117 +1,78 @@
-# 🚗 CarSite - מערכת ניהול רכבים
 
-מערכת Fullstack לניהול רכבים עם הרשמה, התחברות, והרשאות משתמשים. המערכת כוללת ממשק נוח מבוסס React, שרת Express עם MongoDB, וניהול טוקנים עם JWT.
+# 🚗 Car Management Platform
 
----
+מערכת לניהול משתמשים ורכבים, עם תמיכה בהרשמה, התחברות, שמירת טוקן ב־Zustand ו־LocalStorage, ותצוגת רכבים עם API לתמונות.
 
-## 🧰 טכנולוגיות
+## 🛠 טכנולוגיות
 
-- 🖥️ Frontend: React + Vite + Zustand + Tailwind CSS
-- 🌐 Backend: Node.js + Express
-- 🗄️ Database: MongoDB
-- 🔐 Auth: JWT + bcrypt
-
----
-
-## 📦 התקנה
-
-1. **שכפול הריפוזיטורי:**
-
-```bash
-git clone https://github.com/LiranAb/CarSite.git
-cd CarSite
-```
-
-2. **התקנת תלויות ל־Client:**
-
-```bash
-cd client
-npm install
-```
-
-3. **התקנת תלויות ל־Server:**
-
-```bash
-cd ../server
-npm install
-```
-
-4. **קובץ סביבה (.env):**
-
-צור קובץ `.env` בתיקיית `server` עם התוכן הבא:
-
-```env
-PORT=5002
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-```
+- Frontend:
+  - React + Vite
+  - Zustand (ניהול State)
+  - Tailwind CSS
+  - React Router
+- Backend:
+  - Node.js + Express
+  - MongoDB (באמצעות Mongoose)
+  - JWT לאימות משתמשים
+- שירותים חיצוניים:
+  - Pexels API (תמונות רכבים)
+  - CarQuery API (מידע על דגמי רכבים)
 
 ---
 
-## ▶️ הרצת הפרויקט
+## 🚀 הפעלה מקומית
 
-### בצד השרת:
 
+
+### 2. התקנת תלויות
+
+#### בצד השרת
 ```bash
 cd server
-npm run dev
+npm install
 ```
 
-### בצד הלקוח:
-
+#### בצד הלקוח
 ```bash
 cd client
+npm install
+```
+
+---
+
+### 3. הרצת הפרויקט
+
+```bash
 npm run dev
 ```
 
+## 🧪 תכונות
+
+- [x] רישום משתמש חדש
+- [x] התחברות עם אימות סיסמה
+- [x] שמירת JWT ב־LocalStorage
+- [x] תצוגת מידע רכבים לפי יצרן, שנה ודגם
+- [x] קבלת תמונות רכבים מ־Pexels API
+- [x] תפריט ניווט מותאם לפי התחברות
+- [x] עמוד פרופיל עם אפשרות לעריכת פרטים
 ---
 
-## 👤 תכונות
 
-- ✍️ הרשמה והתחברות משתמשים
-- 🔒 אימות טוקנים (JWT)
-- 🧭 לוח מחוונים מותאם לכל משתמש
-- ⚙️ אפשרות שינוי שם או סיסמה בעמוד ההגדרות
-- 📦 ארכיטקטורת MVC בצד השרת
-- 📡 תקשורת בין לקוח לשרת באמצעות פרוקסי של Vite (`/api`)
 
----
 
-## 📁 מבנה פרויקט
+## 🖼 תצוגה לדוגמה
 
-```
-CarSite/
-├── client/           # צד ה-Frontend
-│   └── src/
-│       ├── components/
-│       ├── pages/
-│       └── store/
-│
-├── server/           # צד ה-Backend
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── utils/
-│   └── middleware/
-```
+- מסך רישום
+- דף ניהול רכבים
+- הצגת תוצאות לפי פילטרים (יצרן/שנה/דגם)
+- עמוד פרופיל
 
 ---
 
-## 🛠️ טיפים
+## ✍️ קרדיטים
 
-- ודא שהשרת רץ על `http://localhost:5002` וש-Vite מוגדר כראוי ל־proxy (`vite.config.js`).
-- שימוש בטוקן דרך Zustand נשמר ב־state – תוכל להרחיב לאחסון מקומי (localStorage).
+- תכנות:לירן אבקסיס
+- API תמונות: [Pexels](https://www.pexels.com/api/)
+- API דגמים: [CarQuery API](http://www.carqueryapi.com/)
 
----
 
-## ✅ סטטוס
-
-🚧 בפיתוח, גרסה ראשונה פעילה.
-
----
-
-## 📩 יוצר
-
-- לירן אבקסיס
-- [GitHub](https://github.com/LiranAb)
